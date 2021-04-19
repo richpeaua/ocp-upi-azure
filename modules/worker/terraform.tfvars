@@ -1,0 +1,10 @@
+azure_subscription_id = "a6fac0a9-82e2-4ddb-9952-c4364c85ba08"
+azure_client_id = "3187a4fb-f87b-47ba-81dd-440389eb21ee"
+azure_client_secret = "l6s9n4tOws~JT08YAGaZX3D-3FX635_oEo"
+azure_tenant_id = "2413e563-f93c-4dca-a5f6-e5e10b9a4449"
+azure_worker_vm_type = "Standard_D2_v4"
+azure_worker_root_volume_size = 64
+azure_image_id = "/resourceGroups/rhcos_images/providers/Microsoft.Compute/images/rhcostestimage"
+azure_region = "eastus"
+cluster_id = "test-cluster-bdk6l"
+worker_count = 2

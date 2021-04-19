@@ -59,7 +59,7 @@ resource "azurerm_virtual_machine" "worker" {
   }
 
   storage_image_reference {
-    id = "${data.azurerm_subscription.current.id}${var.azure_image_id}"
+    id = "${data.azurerm_subscription.current.id}${var.azure_custom_image_location}"
   }
 
   //we don't provide a ssh key, because it is set with ignition. 

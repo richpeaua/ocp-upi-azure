@@ -31,7 +31,7 @@ module "bootstrap" {
   resource_group_name     = azurerm_resource_group.main.name
   region                  = var.azure_region
   vm_size                 = var.azure_bootstrap_vm_type
-  vm_image                = var.azure_image_id
+  vm_image                = var.azure_custom_image_location
   identity                = azurerm_user_assigned_identity.main.id
   cluster_id              = var.cluster_id
   ignition                = data.ignition_config.bootstrap_redirect.rendered
@@ -56,7 +56,7 @@ module "vnet" {
   dns_label           = var.cluster_id
 
   # This is to create explicit dependency on private zone to exist before VMs are created in the vnet. https://github.com/MicrosoftDocs/azure-docs/issues/13728
-  private_dns_zone_id = "${azurerm_private_dns_zone.private.id}"
+  private_dns_zone_id = azurerm_private_dns_zone.private.id
 }
 
 module "master" {
@@ -65,7 +65,7 @@ module "master" {
   cluster_id              = var.cluster_id
   region                  = var.azure_region
   vm_size                 = var.azure_master_vm_type
-  vm_image                = var.azure_image_id
+  vm_image                = var.azure_custom_image_location
   identity                = azurerm_user_assigned_identity.main.id
   ignition                = data.ignition_config.master_redirect.rendered
   external_lb_id          = module.vnet.public_lb_id
@@ -78,7 +78,7 @@ module "master" {
   os_volume_size          = var.azure_master_root_volume_size
 
   # This is to create explicit dependency on private zone to exist before VMs are created in the vnet. https://github.com/MicrosoftDocs/azure-docs/issues/13728
-  private_dns_zone_id = "${azurerm_private_dns_zone.private.id}"
+  private_dns_zone_id = azurerm_private_dns_zone.private.id
 }
 
 module "dns" {
@@ -93,12 +93,12 @@ module "dns" {
   etcd_count                      = var.master_count
   etcd_ip_addresses               = module.master.ip_addresses
   
-  private_dns_zone_id = "${azurerm_private_dns_zone.private.id}"
+  private_dns_zone_id = azurerm_private_dns_zone.private.id
 }
 
 resource "azurerm_resource_group" "main" {
   name     = "${var.cluster_id}-rg"
-  location = "${var.azure_region}"
+  location = var.azure_region
 }
 
 resource "azurerm_storage_account" "bootdiag" {
